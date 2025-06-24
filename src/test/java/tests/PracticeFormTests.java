@@ -12,11 +12,11 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTests {
     @BeforeAll
-    static void beforeAll() { //+
-        Configuration.browserSize = "1920x1080"; // +
-        Configuration.baseUrl = "https://demoqa.com"; // +
-        Configuration.pageLoadStrategy = "eager"; // +
-        Configuration.holdBrowserOpen = true; // удалить
+    static void beforeAll() { 
+        Configuration.browserSize = "1920x1080";
+        Configuration.baseUrl = "https://demoqa.com"; 
+        Configuration.pageLoadStrategy = "eager"; 
+        Configuration.holdBrowserOpen = true;
         Configuration.timeout = 5000; //default 4000
     }
 
@@ -24,20 +24,20 @@ public class PracticeFormTests {
     void practiceFormeTests() {
         open("/automation-practice-form");
 
-        // input Name +
+        // input Name
         $("#firstName").setValue("Leonid");
 
-        // input lastName +
+        // input lastName 
         $("#lastName").setValue("Zorin");
 
-        // input Email +
+        // input Email 
         $("#userEmail").setValue("l.zorin2011@yandex.ru");
 
-        // Gender -
+        // Gender
         $(new ByText("Male")).click();
 
         // mobile +
-        $("#userNumber").setValue("9227985359"); // # ввести правильное наименование строки
+        $("#userNumber").setValue("9227985359");
 
         //Date of Birth
         $("#dateOfBirthInput").click();
@@ -45,7 +45,7 @@ public class PracticeFormTests {
         $(".react-datepicker__year-select").selectOption("1984");
         $(".react-datepicker__day--011").click();
 
-        //Subjects нужно вводить часть названия и через клик
+        //Subjects
         $("#subjectsInput").setValue("Eng");
         $$(".subjects-auto-complete__option").findBy(text("English")).click();
         $("#subjectsInput").setValue("Chem");
@@ -69,7 +69,7 @@ public class PracticeFormTests {
         $("#react-select-4-input").setValue("Agra").pressEnter();
 
         // Нажать Submit
-        $("#submit").click(); //# ввести правильное наименование строки
+        $("#submit").click();
 
         // Проверка правильности заполнения таблицы (результат)
         $(".table-responsive").shouldHave(text("Student Name Leonid Zorin"));
