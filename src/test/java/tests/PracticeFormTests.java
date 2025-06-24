@@ -5,17 +5,21 @@ import com.codeborne.selenide.selector.ByText;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTests {
     @BeforeAll
-    static void beforeAll(){ //+
+    static void beforeAll() { //+
         Configuration.browserSize = "1920x1080"; // +
         Configuration.baseUrl = "https://demoqa.com"; // +
         Configuration.pageLoadStrategy = "eager"; // +
         Configuration.holdBrowserOpen = true; // удалить
+        Configuration.timeout = 5000; //default 4000
     }
+
     @Test
     void practiceFormeTests() {
         open("/automation-practice-form");
@@ -35,7 +39,11 @@ public class PracticeFormTests {
         // mobile +
         $("#userNumber").setValue("9227985359"); // # ввести правильное наименование строки
 
-        //Date of Birth //ХЗ как делать
+        //Date of Birth
+        $("#dateOfBirthInput").click();
+        $(".react-datepicker__month-select").selectOption("August");
+        $(".react-datepicker__year-select").selectOption("1984");
+        $(".react-datepicker__day--011").click();
 
         //Subjects нужно вводить часть названия и через клик
         $("#subjectsInput").setValue("Eng");
@@ -44,25 +52,36 @@ public class PracticeFormTests {
         $$(".subjects-auto-complete__option").findBy(text("Chemistry")).click();
 
         //hobbies
-        $(new ByText("Sports")).click(); //
+        $(new ByText("Sports")).click();
         $(new ByText("Reading")).click();
         $(new ByText("Music")).click();
 
-        //Select picture - ХЗ
+        //Select picture
+        // $("#uploadPicture").uploadFromClasspath("1.jpg");
 
         //Current Address
-        $("#subjectsContainer").setValue("Surgut, Russian Federation"); //# ввести правильное наименование строки
+        $("#currentAddress").setValue("Surgut, Russian Federation");
 
-        //State and City - два теста
+        //State and City
+        $("#state").click();
+        $("#react-select-3-input").setValue("Uttar Pradesh").pressEnter();
+        $("#city").click();
+        $("#react-select-4-input").setValue("Agra").pressEnter();
 
         // Нажать Submit
         $("#submit").click(); //# ввести правильное наименование строки
 
-        // Проверка правильности заполнения таблицы
-        $("#output #name").shouldHave(text("Leonid"));
-        $("#output #email").shouldHave(text("l.zorin2011@yandex.ru"));
-        $("#output #currentAddress").shouldHave(text("Surgut, Russian Federation"));
-        $("#output #permanentAddress").shouldHave(text("Surgut, Russian Federation"));
+        // Проверка правильности заполнения таблицы (результат)
+        $(".table-responsive").shouldHave(text("Student Name Leonid Zorin"));
+        $(".table-responsive").shouldHave(text("Student Email l.zorin2011@yandex.ru"));
+        $(".table-responsive").shouldHave(text("Gender Male"));
+        $(".table-responsive").shouldHave(text("Mobile 9227985359"));
+        $(".table-responsive").shouldHave(text("Date of Birth 11 August,1984"));
+        $(".table-responsive").shouldHave(text("Subjects English, Chemistry"));
+        $(".table-responsive").shouldHave(text("Hobbies Sports, Reading, Music"));
+        //$(".table-responsive").shouldHave(text("Picture 1.jpg")); //!не понял как сделать!
+        $(".table-responsive").shouldHave(text("Address Surgut, Russian Federation"));
+        $(".table-responsive").shouldHave(text("State and City Uttar Pradesh Agra"));
     }
 }
 
