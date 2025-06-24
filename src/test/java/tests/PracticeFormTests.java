@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTests {
@@ -17,11 +18,10 @@ public class PracticeFormTests {
         Configuration.baseUrl = "https://demoqa.com"; 
         Configuration.pageLoadStrategy = "eager"; 
         Configuration.holdBrowserOpen = true;
-        Configuration.timeout = 5000; //default 4000
     }
 
     @Test
-    void practiceFormeTests() {
+    void practiceFormTests() {
         open("/automation-practice-form");
 
         // input Name
@@ -34,7 +34,7 @@ public class PracticeFormTests {
         $("#userEmail").setValue("l.zorin2011@yandex.ru");
 
         // Gender
-        $(new ByText("Male")).click();
+        $("#genterWrapper").$(byText("Male")).click();
 
         // mobile +
         $("#userNumber").setValue("9227985359");
@@ -52,12 +52,12 @@ public class PracticeFormTests {
         $$(".subjects-auto-complete__option").findBy(text("Chemistry")).click();
 
         //hobbies
-        $(new ByText("Sports")).click();
-        $(new ByText("Reading")).click();
-        $(new ByText("Music")).click();
+        $("#hobbiesWrapper").$(byText("Music")).click();
+        $("#hobbiesWrapper").$(byText("Sports")).click();
+        $("#hobbiesWrapper").$(byText("Reading")).click();
 
         //Select picture
-        // $("#uploadPicture").uploadFromClasspath("1.jpg");
+        $("#uploadPicture").uploadFromClasspath("1.jpg");
 
         //Current Address
         $("#currentAddress").setValue("Surgut, Russian Federation");
@@ -78,8 +78,8 @@ public class PracticeFormTests {
         $(".table-responsive").shouldHave(text("Mobile 9227985359"));
         $(".table-responsive").shouldHave(text("Date of Birth 11 August,1984"));
         $(".table-responsive").shouldHave(text("Subjects English, Chemistry"));
-        $(".table-responsive").shouldHave(text("Hobbies Sports, Reading, Music"));
-        //$(".table-responsive").shouldHave(text("Picture 1.jpg")); //!не понял как сделать!
+        $(".table-responsive").shouldHave(text("Hobbies Music, Sports, Reading"));
+        $(".table-responsive").shouldHave(text("Picture 1.jpg"));
         $(".table-responsive").shouldHave(text("Address Surgut, Russian Federation"));
         $(".table-responsive").shouldHave(text("State and City Uttar Pradesh Agra"));
     }
